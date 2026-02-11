@@ -55,11 +55,16 @@
               </span>
               <span>Paper</span>
             </a>
-            <a class="navbar-item  pl-4 pr-4" href="https://arxiv.org/abs/2407.10353">
+            <!-- <a class="navbar-item  pl-4 pr-4" href="https://arxiv.org/abs/2407.10353">
               <span class="icon" style="margin-right:5px;">
                 <img src="./static/images/arxiv.svg" alt="ArXiv" />
               </span>
-              <span>arXiv</span> </a>
+              <span>arXiv</span> </a> -->
+            <!-- <a href="https://youtu.be/4Bp0q3xHTxE" class="navbar-item  pl-4 pr-4">
+              <span class="icon" style="margin-right:5px;">
+                <img src="./static/images/youtube.svg" alt="Youtube" />
+              </span>
+              <span>Video</span> </a> -->
             <span class="navbar-item  pl-4 pr-4">
               <a href="https://github.com/real-stanford/umi-on-legs" class="button is-inverted is-large">
                 <span class="icon">
@@ -90,14 +95,14 @@
         <div class="publication-links">
           <!-- PDF Link. -->
           <span class="link-block">
-            <a href="./static/umi-on-legs.pdf" class="external-link button is-normal is-rounded is-dark">
+            <a href="./static/ExtremControl.pdf" class="external-link button is-normal is-rounded is-dark">
               <span class="icon">
                 <img src="./static/images/pdf.svg" alt="PDF" />
               </span>
               <span>Paper</span>
             </a>
           </span>
-          <span class="link-block">
+          <!-- <span class="link-block">
             <a href="https://arxiv.org/abs/2407.10353" class="external-link button is-normal is-rounded is-dark">
               <span class="icon">
                 <img src="./static/images/arxiv.svg" alt="ArXiv" />
@@ -139,29 +144,31 @@
     <div class="columns is-centered">
       <div class="column is-four-fifths has-text-justified is-hidden-mobile">
         <h2 class="subtitle ">
-          UMI on Legs is a framework for combining real-world human demonstrations with
-          simulation trained whole-body controllers, providing a scalable approach for manipulation skills on robot dogs
-          with arms.
+          <strong>ExtremControl</strong> is a humanoid whole-body control framework aiming to minimize the latency when responding to high-level control interface.
+          Instead of relying on whole-body retargeting, we directly control the robot's extremities.
+          To further reduce the latency, we incorporate a velocity feedforward term into PD controller.
         </h2>
-        <br>
-        <h2 class="subtitle">
-          <strong>The best part?</strong>
-          You can plug-and-play your existing visuomotor policies onto a quadruped, making your manipulation
-          policies mobile!
+        <h2 class="subtitle ">
+          Built on top of ExtremControl, we develop a humanoid teleoperation system that achieves end-to-end latency as low as <strong>50ms</strong>.
+          Although our experiments are conducted with MoCap and VR systems, the framework is interface-agnostic—you can seamlessly integrate your own high-level control input.
+        </h2>
+        <h2 class="subtitle ">
+          The codebase is fully open-sourced and built on <strong>Genesis</strong>, enabling additional features beyond what is shown here. Click the
+          <a href="https://github.com/real-stanford/umi-on-legs">CHANGETHELINK</a> to explore more.
         </h2>
       </div>
 
       <div class="column is-four-fifths is-hidden-tablet has-text-justified-mobile">
         <p>
-          UMI on Legs is a framework for combining real-world human demonstrations with
-          simulation trained whole-body controllers, providing a scalable approach for manipulation skills on robot dogs
-          with arms.
+          <strong>ExtremControl</strong> is a humanoid whole-body control framework minimizing the latency when responding to high-level control interface.
+          Instead of relying on conventional whole-body retargeting, we directly control the robot's extremities.
+          To further reduce the latency, we incorporate a velocity feedforward term into the PD controller.
         </p>
         <br>
         <p>
-          <strong>The best part?</strong>
-          You can plug-and-play your existing visuomotor policies onto a quadruped, making your manipulation
-          policies mobile!
+          Built on top of ExtremControl, we develop a humanoid teleoperation system that achieves end-to-end latency as low as <strong>50ms</strong>.
+          Although our experiments are conducted with MoCap and VR systems, the framework is interface-agnostic—you can seamlessly integrate your own high-level control input.
+          The codebase is fully open-sourced.
         </p>
       </div>
 
@@ -207,8 +214,12 @@
     <source src="./static/videos/Loop_goalkeeper.mp4" type="video/mp4">
   </video>
   <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;">
-    <source src="./static/videos/Loop_football.mp4" type="video/mp4">
+    <source src="./static/videos/Loop_2lb.mp4" type="video/mp4">
   </video>
+</div>
+<br>
+<div class="columns is-centered">
+  <strong>All videos are in original speed.</strong>
 </div>
 
 <section class="section is-medium" id="extremcontrol">
@@ -219,21 +230,21 @@
         <h2 class="title is-1 has-text-centered is-size-4-mobile">Whole-body Control without Whole-body Retargeting</h2>
         <div class="content">
           <p>
-            Robots are the reason why it's been hard to collect a lot of robot data.
-            They are expensive 💸, tricky to control for dexterous tasks 🎾, and can punch a hole in the wall (or
-            itself) if you're not
-            careful ☠️.
-            What if we could collect robot data without robots?
+            Whole-body retargeting has become popular following the release of Unitree G1, as its 7-DoF arms 
+            offer redundancy beyond the 6-DoF rigid pose of end-effectors. However, even state-of-the-art whole-body retargeting
+            methods still incur a latency of around 30 ms (e.g., GMR tested on an i9-13900K), partly due to the over-constrained
+            formulation of tracking targets. Moreover, inverse kinematics must be solved sequentially, 
+            which limits the update rate to approximately 30Hz—even slower than the commonly used 50Hz control frequency.
           </p>
         </div>
 
         <div class="content">
           <p>
-            <a href="https://umi-gripper.github.io/">UMI</a> is a handheld gripper with a
-            GoPro attached.
-            With UMI, we can collect real-world robot demonstrations anywhere for any manipulation skill,
-            without any robots.
-            So just walk out into the wild with UMI, and start collecting data!
+            To address this challenge, we move away from traditional whole-body retargeting and instead directly control the robot's extremities.
+            The proposed Cartesian-Space Mapping (shown in the middle) is fully parallelizable and requires only 0.3ms to compute.
+            To demonstrate that the selected links are sufficiently expressive, we also present a joint-space retargeting result (shown on the right),
+            implemented with a customized IK solver that takes only 10ms. The mapped link poses are sufficient to reconstruct a reasonable 
+            full-body configuration, allowing us to eliminate this 10ms computation.
           </p>
         </div> 
         <video autoplay muted loop playsinline height="100%">
@@ -253,31 +264,36 @@
         <h2 class="title is-1 has-text-centered is-size-4-mobile">Go Beyond Position Control and Embrace Velocity Feedforward</h2>
         <div class="content">
           <p>
-            Robots are the reason why it's been hard to collect a lot of robot data.
-            They are expensive 💸, tricky to control for dexterous tasks 🎾, and can punch a hole in the wall (or
-            itself) if you're not
-            careful ☠️.
-            What if we could collect robot data without robots?
+            Since the very begining of parallel simulation for locomotion, position-only PD control seems to be the only option.
+            However, due to the damping term, the target joint position must lead the actual position by a certain angle to maintain the 
+            joint velocity, deviating from the definition of "target" joint position. To address this issue,
+            we introduce a velocity feedforward term where the target velocity is computed from the difference betweenlast two target joint positions.
+            To prevent overshoot, the velocity gain is set as the damping gain scaled by a feedforward ratio smaller than 1. 
+            We derive a theoretical upper bound in our paper, which is further validated through experiments.
           </p>
-        </div>
-
-        <div class="content">
           <p>
-            <a href="https://umi-gripper.github.io/">UMI</a> is a handheld gripper with a
-            GoPro attached.
-            With UMI, we can collect real-world robot demonstrations anywhere for any manipulation skill,
-            without any robots.
-            So just walk out into the wild with UMI, and start collecting data!
+            We also provide a demonstration of how velocity feedforward term affects the control behavior:
           </p>
         </div>
 
         <div class="phase-demo">
           <canvas id="phase-demo-canvas" aria-label="Phase difference demo"></canvas>
           <div class="phase-demo-controls">
-            <label for="phase-demo-eta">η</label>
+            Velocity Feedforward Ratio: <label for="phase-demo-eta">η</label>
             <input id="phase-demo-eta" type="range" min="0" max="0.90" step="0.01" value="0" />
             <div id="phase-demo-val" class="phase-demo-val">0.00</div>
           </div>
+        </div>
+
+        <br>
+        <div class="content">
+          <p>
+            The above demonstration is conducted using PD gains corresponding to a natural frequency of 10 rad/s and a damping ratio of 1.0.
+            In our paper, we further show that, for low-frequency sinusoidal inputs, the induced control delay remains constant.
+            Since any control signal can be decomposed into a sum of sinusoidal components, this delay generalizes to arbitrary trajectories
+            and can be interpreted as an effective latency. Consequently, it manifests as a part of the end-to-end delay scaled by a factor of approximately 0.6, 
+            which is an empirical observation from our real-world experiments.
+          </p>
         </div>
       </div>
     </div>
@@ -376,7 +392,7 @@
         drawSin(orange, -delay * omega, true);
 
         ctx.fillStyle = "#111827";
-        ctx.fillText(`control delay = ${delay.toFixed(3) * 1000} ms`, margin, 24);
+        ctx.fillText(`control delay (theoretical) = ${delay.toFixed(3) * 1000} ms`, margin, 24);
 
         // legend
         const lx = w - margin - 80;
@@ -430,11 +446,20 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-1 has-text-centered is-size-4-mobile">Evolving from Human to Cobra</h2>
+        <h2 class="title is-1 has-text-centered is-size-4-mobile">Evolve from Human to Cobra</h2>
+        <div class="content">
+          <p>
+            Here is a vivid illustration of the end-to-end latency (response time) among different systems:
+          </p>
+        </div>
         <img src="./static/images/reaction.jpg" alt="reaction_time" />
         <div class="content">
           <p>
-            On a quiet afternoon that felt slightly longer than it needed to be, the room filled with a soft, almost mechanical hum, as if the walls themselves were thinking. A cup of coffee sat untouched on the desk, slowly cooling while light from the window drifted across scattered notes and half-finished sketches. Somewhere outside, a bus passed, its sound briefly folding into the background noise of the city before disappearing again. The mind wandered easily in moments like this, hopping from unfinished plans to vague future ideas, then back to the present with no clear reason. Time seemed elastic, stretching and compressing depending on what the eyes focused on. A small crack in the paint became fascinating, then suddenly irrelevant. Thoughts layered over one another, not chaotic but loosely organized, like books stacked without labels.
+            To the best of our knowledge, <strong>NO</strong> prior work has systemetically analyzed the end-to-end latency of humanoid teleoperation.
+            This may be because existing systems operate at latencies that are still clearly perceptible to humans.
+            However, as latency approaches the perceptual threshold, there is an urgent need for objective quantification.
+            We use an optical MoCap system as ground truth to measure latency by attaching markers to the robot's rubber hand.
+            In addition, we implement an optical-flow-based hand tracking method to estimate end-to-end latency, as illustrated in the video:
           </p>
         </div>
         <video autoplay muted loop playsinline height="100%">
@@ -443,7 +468,10 @@
 
         <div class="content">
           <p>
-            Nothing particularly important happened, yet everything felt quietly significant in a way that was hard to explain. The afternoon carried on with this gentle uncertainty, offering space to think, forget, remember, and think again. Eventually, the coffee would be reheated, the notes would be reorganized, and the sketches might become something more concrete. Or maybe they wouldn’t. Either way, the moment existed for its own sake, suspended between intention and distraction, content to remain undefined.
+            In the above video, the position curves are obtained from the optical MoCap system and closely match the optical-flow curves.
+            In our experiments, the difference in measured end-to-end latency between the two methods is less than 10 ms,
+            suggesting that optical-flow-based estimation is a reliable proxy. We report selected results in the previous figure;
+            please refer to the paper for the complete table, including ablations across different systems.
           </p>
         </div>
 
@@ -462,28 +490,13 @@
         <h2 class="title is-1 has-text-centered is-size-4-mobile">Everything is Open-Sourced</h2>
         <div class="content">
           <p>
-            Following our lab's <a href="https://real.stanford.edu/lab.html#robot-grid">caffinated drinks naming
-              tradition</a>, I've decided to name our quadruped Espresso and our new arm Oat Milk.
-            My hope is that, when combined together, Espresso and Oat Milk will be as capable as Latte (our UR5 which
-            has <a href="https://flingbot.cs.columbia.edu/">unfolded</a> and <a
-              href="https://clothfunnels.cs.columbia.edu/">folded</a> cloths and <a
-              href="https://umi-gripper.github.io/">washed dishes</a>).
-            Deploying policies from Latte to Espresso and Oat Milk, as we've done, is the first step 🚀.
+            Due to hardware limitations, we evaluate ExtremControl only on Unitree G1, using an OptiTrack MoCap system and a Quest 2 with VIVE motion trackers.
+            To facilitate follow-up research, we fully open-source both the codebase and the hardware setup.
+            You can find the codebase at <a href="https://github.com/real-stanford/extremcontrol">CHANGETHELINK</a>.
+            Although we provide example trained policy for Unitree G1, we recommend fine-tuning a new policy tailored to 
+            your own control interface for optimal performance.
           </p>
         </div>
-
-        <div class="content">
-          <p>
-            Espresso - Oat Milk comes with a GoPro on its head 🎩, a 3D printed gripper at the end of its arm 🦾, and an
-            iPhone on its butt
-            🍑.
-            The GoPro streams visual observations through a capture card, serving as the policy observation.
-            Meanwhile, the iPhone runs a custom iOS app we developed, which streams the robot's body pose, allowing <a
-              href="stable-tracking">world frame stabilization</a>.
-          </p>
-        </div>
-
-
 
       </div>
     </div>
