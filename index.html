@@ -7,17 +7,17 @@
   <meta name="keywords" content="humanoid teleoperation, whole-body control, low-latency, extremity control, robotics, Unitree G1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
-  <title>ExtremControl: Low-Latency Humanoid Teleoperation with Direct Extremity Control</title>
+  <title>ExtremControl: Low-Latency Humanoid Teleoperation with Scaled Velocity Feedforward</title>
 
   <link rel="canonical" href="https://extremcontrol.github.io/">
 
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://extremcontrol.github.io/">
-  <meta property="og:title" content="ExtremControl: Low-Latency Humanoid Teleoperation with Direct Extremity Control">
+  <meta property="og:title" content="ExtremControl: Low-Latency Humanoid Teleoperation with Scaled Velocity Feedforward">
   <meta property="og:description" content="A humanoid whole-body control framework achieving end-to-end teleoperation latency as low as 50ms by directly controlling robot extremities.">
   <meta property="og:image" content="https://extremcontrol.github.io/static/images/reaction.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ExtremControl: Low-Latency Humanoid Teleoperation with Direct Extremity Control">
+  <meta name="twitter:title" content="ExtremControl: Low-Latency Humanoid Teleoperation with Scaled Velocity Feedforward">
   <meta name="twitter:description" content="A humanoid whole-body control framework achieving end-to-end teleoperation latency as low as 50ms by directly controlling robot extremities.">
   <meta name="twitter:image" content="https://extremcontrol.github.io/static/images/reaction.jpg">
 
@@ -25,8 +25,8 @@
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
-    "headline": "ExtremControl: Low-Latency Humanoid Teleoperation with Direct Extremity Control",
-    "name": "ExtremControl: Low-Latency Humanoid Teleoperation with Direct Extremity Control",
+    "headline": "ExtremControl: Low-Latency Humanoid Teleoperation with Scaled Velocity Feedforward",
+    "name": "ExtremControl: Low-Latency Humanoid Teleoperation with Scaled Velocity Feedforward",
     "description": "A humanoid whole-body control framework achieving end-to-end teleoperation latency as low as 50ms by directly controlling robot extremities instead of relying on whole-body retargeting.",
     "url": "https://extremcontrol.github.io/",
     "sameAs": "https://arxiv.org/abs/2602.11321",
@@ -120,11 +120,11 @@
         ExtremControl
       </h1>
       <h2 class="subtitle is-1 publication-title is-size-4-mobile hero-subtitle" data-fit-text-mobile data-fit-min-px="14" style="white-space: normal;">
-        Low-Latency Humanoid Teleoperation with <br class="is-hidden-mobile">  Direct Extremity Control
+        Low-Latency Humanoid Teleoperation with <br class="is-hidden-mobile">  Scaled Velocity Feedforward
       </h2>
-      <!-- <h1 class="is-2 is-italic is-size-4-mobile" style="font-size: 2rem; opacity: 80%;">
-        In Submission
-      </h1> -->
+      <h1 class="is-2 is-italic is-size-4-mobile" style="font-size: 2rem; opacity: 80%;">
+        CoRL 2026
+      </h1>
       <div class="column has-text-centered is-hidden-tablet">
         <div class="publication-links">
           <!-- PDF Link. -->
@@ -255,40 +255,6 @@
 <div class="columns is-centered">
   <strong>All videos are presented at their original speed.</strong>
 </div>
-
-<section class="section is-medium" id="extremcontrol">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-
-        <h2 class="title is-1 has-text-centered is-size-4-mobile">Whole-body Control without Whole-body Retargeting</h2>
-        <div class="content">
-          <p>
-            Whole-body retargeting has become popular following the release of Unitree G1, as its 7-DoF arms 
-            offer redundancy beyond the 6-DoF rigid pose of end-effectors. However, even state-of-the-art whole-body retargeting
-            methods still incur a latency of around 30 ms (e.g., GMR tested on an i9-13900K), partly due to the over-constrained
-            formulation of tracking targets. Moreover, inverse kinematics must be solved sequentially, 
-            which limits the update rate to approximately 30Hz—even slower than the commonly used 50Hz control frequency.
-          </p>
-        </div>
-
-        <div class="content">
-          <p>
-            To address this challenge, we move away from traditional whole-body retargeting and instead directly control the robot's extremities.
-            The proposed Cartesian-Space Mapping (shown in the middle) is fully parallelizable and requires only 0.3ms to compute.
-            To demonstrate that the selected links are sufficiently expressive, we also present a joint-space retargeting result (shown on the right),
-            implemented with a customized IK solver that takes only 10ms. The mapped link poses are sufficient to reconstruct a reasonable 
-            full-body configuration, allowing us to eliminate this 10ms computation.
-          </p>
-        </div> 
-        <video autoplay muted loop playsinline height="100%">
-          <source src="./static/videos/extremity.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-
-</section>
 
 <section class="section is-small" id="feedforward">
   <div class="container is-max-desktop">
@@ -475,6 +441,39 @@
 
 </section>
 
+<section class="section is-medium" id="extremcontrol">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+
+        <h2 class="title is-1 has-text-centered is-size-4-mobile">Whole-body Control without Whole-body Retargeting</h2>
+        <div class="content">
+          <p>
+            Whole-body retargeting has become popular following the release of Unitree G1, as its 7-DoF arms 
+            offer redundancy beyond the 6-DoF rigid pose of end-effectors. However, even state-of-the-art whole-body retargeting
+            methods still incur a latency of around 30 ms (e.g., GMR tested on an i9-13900K), partly due to the over-constrained
+            formulation of tracking targets. Moreover, inverse kinematics must be solved sequentially, 
+            which limits the update rate to approximately 30Hz—even slower than the commonly used 50Hz control frequency.
+          </p>
+        </div>
+
+        <div class="content">
+          <p>
+            To address this challenge, we move away from traditional whole-body retargeting and instead directly control the robot's extremities.
+            The proposed Cartesian-Space Mapping (shown in the middle) is fully parallelizable and requires only 0.3ms to compute.
+            To demonstrate that the selected links are sufficiently expressive, we also present a joint-space retargeting result (shown on the right),
+            implemented with a customized IK solver that takes only 10ms. The mapped link poses are sufficient to reconstruct a reasonable 
+            full-body configuration, allowing us to eliminate this 10ms computation.
+          </p>
+        </div> 
+        <video autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/extremity.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+
+</section>
 
 <section class="section is-medium" id="latency">
   <div class="container is-max-desktop">
